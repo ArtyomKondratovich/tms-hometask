@@ -20,17 +20,18 @@ void Calculator()
                 PrintInstruction();
                 break;
             default:
-                if (reversePolishNotation.Validate(inputExpression))
+                try
                 {
-                    try
+                    if (reversePolishNotation.Validate(inputExpression))
                     {
-                        Console.WriteLine(reversePolishNotation.Calculate());
-                    }
-                    catch (ArgumentException e)
-                    {
-                        Console.WriteLine(e.Message);
+                        Console.WriteLine(reversePolishNotation.Calculate()); 
                     }
                 }
+                catch(ArgumentException e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+                
                 break;
         }
     }

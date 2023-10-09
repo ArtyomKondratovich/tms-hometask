@@ -110,7 +110,15 @@ namespace Calculator
 
                         while (_operations.TryPeek(out var operation) && IsOperator(operation) < priority)
                         {
-                            Operation(operation);
+                            try
+                            {
+                                Operation(operation);
+                            }
+                            catch
+                            {
+                                throw new ArgumentException("Division by zero!");
+                            }
+                            
                         }
 
                         _operations.Push(line[i]);
