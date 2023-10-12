@@ -11,9 +11,12 @@ namespace MatrixHandling
     {
         private Dictionary<string, Matrix> _matrices { get; set; }
 
+        private MatrixCalculator _calculator { get; set; }
+
         public Menu()
         {
             _matrices = new Dictionary<string, Matrix>();
+            _calculator = new MatrixCalculator();
         }
 
         public void Start()
@@ -41,6 +44,25 @@ namespace MatrixHandling
                         }
 
                         matrix.Operation(command);
+                        break;
+                    case "arifm":
+                        PrintExistingMatrices();
+                        if (_matrices.Count == 0)
+                        {
+                            Console.WriteLine("Словарь матриц пуст");
+                            break;
+                        }
+
+                        _calculator._dictionary = _matrices;
+                        try
+                        {
+                            var expression = Console.ReadLine();
+                            _calculator.Calculate(expression ?? string.Empty).PrintMatrix();
+                        }
+                        catch (ArgumentException e)
+                        {
+                            Console.WriteLine(e.Message);
+                        }
                         break;
                     case "clear":
                         Console.Clear();
@@ -115,7 +137,8 @@ namespace MatrixHandling
             Console.WriteLine("Добавить новую матрицу -> add" +
                 "\nНайти количество положительных/отрицательных чисел в матрице -> find" +
                 "\nСортировка элементов матрицы построчно (в двух направлениях) -> sortIncerease/sortDecrease" +
-                "\nИнверсия элементов матрицы построчно - inversion" +
+                "\nИнверсия элементов матрицы построчно -> inversion" +
+                "\nарифметические операции -> arifm" +
                 "\nОчистить консоль - clear" +
                 "\nВыйти -> exit");
         }
