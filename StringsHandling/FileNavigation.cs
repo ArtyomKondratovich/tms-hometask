@@ -74,15 +74,42 @@ namespace StringsHandling
             Console.Write(Path.ToString() + '>');
         }
 
+        public bool OpenText(string path, out StringBuilder text)
+        {
+            try 
+            {
+                text = new StringBuilder(File.ReadAllText(Path.ToString() + path));
+                return true;
+            }
+            catch (FileNotFoundException) 
+            {
+                text = new StringBuilder();
+                return false;
+            }
+        }
+
         public static void ClearConsole()
         {
             Console.Clear();
+        }
+
+        public static void Help()
+        {
+            Console.WriteLine(@"Change directory - cd [ subfolder or other global path ]
+Display all files and subfolders in current folder - dir
+Clear window - cls
+Help - help or h
+Open text file - open [ name of text file .txt or .docx]
+Print text - print
+Find words - find w [options: -d, -s, -l]
+Find sentences - find s [options: -w, -t]
+Replace numbers - replace
+Exit - exit");
         }
 
         public static void UnknowCommand()
         {
             Console.WriteLine("Unknown command, use help to know all existing commands");
         }
-
     }
 }
