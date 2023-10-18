@@ -1,0 +1,16 @@
+[
+	{
+		"inputProvider": "console",
+		"inputFile": null,
+		"command": "Words with same first last",
+		"outputProvider": "console",
+		"outputFile": null
+	},
+	{
+		"inputProvider": "file",
+		"inputFile": "D:\\text.txt",
+		"command": "Longest word",
+		"outputProvider": "file",
+		"outputFile": "D:\\output.txt"
+	}
+]

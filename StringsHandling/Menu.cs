@@ -5,113 +5,120 @@ using System.Reflection.Metadata.Ecma335;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.Json;
+using StringsHandling.InputProviders;
+using StringsHandling.OutputProviders;
+
 
 namespace StringsHandling
 {
     internal class Menu
     {
-        private FileNavigation Navigation { get; set; }
+        private readonly string _configPath;
 
-        private Text Text { get; set; }
-
-        public Menu() 
+        public Menu(string configPath) 
         {
-            Navigation = new FileNavigation();
-            Text = new Text();
+            _configPath = configPath;
         }
 
         public void Start()
         {
-            while (true) 
+            var formeds = new List<FormedTask>();
+
+            try
             {
-                Navigation.PrintCurrentFolderPath();
-                var command = GetCommand();
-                
-                switch (command)
+                Console.WriteLine($"Loading configure file {_configPath} ...");
+
+                var tasks = JsonDocument.Parse(File.ReadAllText(_configPath)).RootElement.EnumerateArray();
+
+                while (tasks.MoveNext())
                 {
-                    case "cls":
-                        FileNavigation.ClearConsole();
-                        break;
-                    case string s when s.Length >= 2 && s[0..2] == "cd":
-                        Navigation.ChangeDirectory(s[3..]);
-                        break;
-                    case "dir":
-                        Navigation.DisplayDirectoryContents();
-                        break;
-                    case "h" or "help":
-                        FileNavigation.Help();
-                        break;
-                    case string s when s.Length >= 4 && s[0..4] == "open":
-                        if (Navigation.OpenText(s[5..], out var text))
-                        {
-                            Text._text = text;
-                            Console.WriteLine($"Текст успешно считан из файла {s[5..]}");
-                        }
-                        else 
-                        {
-                            Console.WriteLine("Не удалось считать текст из файла");
-                        }
-                        break;
-                    case string s when s.Length == 9 && s[0..6] == "find w":
-                        if (Text._text.Length != 0)
-                        {
-                            var words = Text.FindWords(s[7..]);
-
-                            foreach (var word in words)
-                            {
-                                Console.WriteLine(word);
-                            }
-                        }
-                        else 
-                        {
-                            Console.WriteLine("Для начала считайте какой-нибудь текс");
-                        }
-                        break;
-                    case string s when s.Length == 9 && s[0..6] == "find s":
-                        if (Text._text.Length != 0)
-                        {
-                            var sentences = Text.FindSentences(s[7..]);
-
-                            foreach (var sentence in sentences)
-                            {
-                                Console.WriteLine(sentence);
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Для начала считайте какой-нибудь текс");
-                        }
-                        break;
-                    case "replace":
-                        Console.WriteLine("До замены:");
-                        Text.PrintText();
-                        Text.ReplaceNumbersWithText();
-                        Console.WriteLine("После замены:");
-                        Text.PrintText();
-                        break;
-                    case "print":
-                        Text.PrintText();
-                        break;
-                    case "exit":
-                        return;
-                    default:
-                        FileNavigation.UnknowCommand();
-                        break;
+                    if (TryParse(tasks.Current, out var task))
+                    {
+                        formeds.Add(task);
+                    }
                 }
+
+                foreach (var task in formeds) 
+                {
+                    Console.WriteLine(task.ToString());
+                    Console.WriteLine();
+                }
+
+                foreach (var task in formeds)
+                {
+                    task.SolveTask();
+                }
+
             }
-
-        }
-
-        private string GetCommand()
-        {
-            while (true) 
+            catch (InvalidOperationException e)
             {
-                var command = Console.ReadLine();
-
-                if (!string.IsNullOrWhiteSpace(command))
-                    return command;
-
+                Console.WriteLine(e.Message);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
+
+        private static bool TryParse(JsonElement element, out FormedTask task)
+        {
+            try
+            {
+                var inputProvider = GetInputProvider(element);
+
+                var outputProvider = GetOutputProvider(element);
+
+                var command = GetCommand(element);
+
+                task = new(inputProvider, command, outputProvider);
+
+                return true;
+
+            }
+            catch (InvalidOperationException)
+            {
+                throw new InvalidOperationException($" {element}");
+            }
+        }
+
+        private static IInputProvider GetInputProvider(JsonElement element)
+        {
+            var type = element.GetProperty("inputProvider").ToString();
+            var fileName = element.GetProperty("inputFile").ToString();
+
+            return type switch
+            {
+                "console" => new ConsoleInput(),
+                "file" => new FileInput(fileName),
+                _ => throw new InvalidOperationException()
+            };
+        }
+
+        private static IOutputProvider GetOutputProvider(JsonElement element)
+        {
+            var type = element.GetProperty("outputProvider").ToString();
+            var fileName = element.GetProperty("outputFile").ToString();
+
+            return type switch
+            {
+                "console" => new ConsoleOutput(),
+                "file" => new FileOutput(fileName),
+                _ => throw new InvalidOperationException()
+            };
+        }
+
+        private static string GetCommand(JsonElement element)
+        {
+            var command = element.GetProperty("command").ToString();
+
+            if (string.IsNullOrWhiteSpace(command))
+            {
+                throw new InvalidOperationException();
+            }
+
+            return command;
+        }
+
     }
 }
