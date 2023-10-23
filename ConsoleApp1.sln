@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Structures", "Structures\St
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MatrixHandling", "MatrixHandling\MatrixHandling.csproj", "{7D9FBCCA-D3CB-4127-AD48-458EE79FDC94}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringsHandling", "StringsHandling\StringsHandling.csproj", "{BD20BBC1-E00E-4DB7-B977-A86AAEA811A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringsHandling", "StringsHandling\StringsHandling.csproj", "{BD20BBC1-E00E-4DB7-B977-A86AAEA811A5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductInvertory", "ProductInvertory\ProductInvertory.csproj", "{FAF180A9-AAB4-4755-8C77-453EC79497C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{BD20BBC1-E00E-4DB7-B977-A86AAEA811A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BD20BBC1-E00E-4DB7-B977-A86AAEA811A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD20BBC1-E00E-4DB7-B977-A86AAEA811A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAF180A9-AAB4-4755-8C77-453EC79497C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAF180A9-AAB4-4755-8C77-453EC79497C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAF180A9-AAB4-4755-8C77-453EC79497C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAF180A9-AAB4-4755-8C77-453EC79497C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,7 @@
+{
+	"Settings": {
+		"dataBasePath": "C:\\Users\\MI\\source\\repos\\tms-hometasks\\ProductInvertory\\database.json",
+		"loggerType": "file",
+		"loggerPath": "C:\\Users\\MI\\source\\repos\\tms-hometasks\\ProductInvertory\\Loggers\\logs.txt"
+	}
+}
