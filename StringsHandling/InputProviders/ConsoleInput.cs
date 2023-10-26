@@ -31,7 +31,6 @@ namespace StringsHandling.InputProviders
             }
             
         }
-
         public override string ToString()
         {
             return "console";
