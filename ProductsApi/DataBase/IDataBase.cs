@@ -4,7 +4,7 @@ namespace ProductsApi.DataBase
 {
     public interface IDataBase
     {
-        public List<Storage> Read();
-        public void Write(List<Storage> storages);
+        public List<StorageModel> Read();
+        public void Write(List<StorageModel> storages);
     }
 }

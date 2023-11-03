@@ -5,7 +5,7 @@ namespace ProductsApi.Services
 {
     public interface IStoragesService
     {
-        public List<Storage> GetAll();
+        public List<StorageModel> GetAll();
         public bool AddProduct(NewProductDto newProduct);
         public bool AddStorage(NewStorageDto newStorage);
         public void DeleteProduct(string productId);

@@ -20,12 +20,12 @@ namespace ProductsApi.DataBase
             _logger = logger;
         }
 
-        public List<Storage> Read()
+        public List<StorageModel> Read()
         {
             return LoadFromJson();
         }
 
-        public void Write(List<Storage> storages)
+        public void Write(List<StorageModel> storages)
         {
             var json = JsonSerializer.Serialize(storages);
 
@@ -34,13 +34,13 @@ namespace ProductsApi.DataBase
             _logger.LogInformation($"Save changes to {_source}");
         }
 
-        private List<Storage> LoadFromJson()
+        private List<StorageModel> LoadFromJson()
         {
             var json = File.ReadAllText(_source);
 
-            var storages = JsonSerializer.Deserialize<List<Storage>>(json);
+            var storages = JsonSerializer.Deserialize<List<StorageModel>>(json);
 
-            return storages ?? new List<Storage>();
+            return storages ?? new List<StorageModel>();
         }
     }
 }

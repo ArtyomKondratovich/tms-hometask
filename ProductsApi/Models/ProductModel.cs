@@ -1,13 +1,13 @@
 ﻿namespace ProductsApi.Models
 {
-    public class Product
+    public class ProductModel
     {
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public float Weight { get; set; }
         public int Count { get; set; }
-        public Product(string? name, string? description, int count, float weight)
+        public ProductModel(string? name, string? description, int count, float weight)
         {
             if (string.IsNullOrWhiteSpace(name))
             {

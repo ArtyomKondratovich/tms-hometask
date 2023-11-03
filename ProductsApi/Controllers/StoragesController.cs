@@ -15,7 +15,7 @@ namespace ProductsApi.Controllers
         }
 
         [HttpPost]
-        public IEnumerable<Storage> GetAll()
+        public IEnumerable<StorageModel> GetAll()
         {
             return _service.GetAll();
         }

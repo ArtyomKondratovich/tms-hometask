@@ -5,7 +5,7 @@ namespace ProductsApi.Services
 {
     public class StoragesService : IStoragesService
     {
-        private readonly List<Storage> _storages;
+        private readonly List<StorageModel> _storages;
 
         private readonly ILogger<StoragesService> _logger;
 
@@ -18,7 +18,7 @@ namespace ProductsApi.Services
             _storages = _dataBase.Read();
         }
 
-        public List<Storage> GetAll()
+        public List<StorageModel> GetAll()
         {
             return _storages.ToList();
         }
@@ -31,7 +31,7 @@ namespace ProductsApi.Services
             {
                 try 
                 {
-                    var product = new Product(newProduct.Name,
+                    var product = new ProductModel(newProduct.Name,
                         newProduct.Description,
                         newProduct.Count,
                         newProduct.Weight);
@@ -63,10 +63,10 @@ namespace ProductsApi.Services
             }
             else
             {
-                _storages.Add(new Storage
+                _storages.Add(new StorageModel
                 {
                     Name = newStorage.Name,
-                    Products = new List<Product>()
+                    Products = new List<ProductModel>()
                 });
 
                 _logger.LogInformation($"Added new storage {newStorage.Name}");
