@@ -1,5 +1,6 @@
 ﻿using ProductsApi.DataBase;
 using ProductsApi.Models;
+using ProductsApi.Models.Dto;
 
 namespace ProductsApi.Services
 {
@@ -38,6 +39,7 @@ namespace ProductsApi.Services
 
                     storage.Products.Add(product);
                     _logger.LogInformation($"New product {product} added to storage {newProduct.StorageName}");
+                    Save();
                     return true;
                 }
                 catch (Exception e)
@@ -71,24 +73,27 @@ namespace ProductsApi.Services
 
                 _logger.LogInformation($"Added new storage {newStorage.Name}");
 
+                Save();
+
                 return true;
             }
 
             return false;
         }
 
-        public void DeleteProduct(string productId)
+        public void DeleteProduct(DeleteProductDto deleteProduct)
         {
-            var storage = _storages.Find(x => x.Products.Find(y => y.Id == productId) != null);
+            var storage = _storages.Find(x => x.Products.Find(y => y.Id == deleteProduct.Id) != null);
 
             if (storage != null)
             {
-                var product = storage.Products.Find(x => x.Id == productId);
+                var product = storage.Products.Find(x => x.Id == deleteProduct.Id);
 
                 if (product != null)
                 {
                     storage.Products.Remove(product);
                     _logger.LogInformation($"Product {product} removed from storage {storage.Name}");
+                    Save();
                 }
                 else
                 {
@@ -101,18 +106,19 @@ namespace ProductsApi.Services
             }
         }
 
-        public void DeleteStorage(string storageName)
+        public void DeleteStorage(DeleteStorageDto deleteStorage)
         {
-            var storage = _storages.Find(x => x.Name == storageName);
+            var storage = _storages.Find(x => x.Name == deleteStorage.StorageName);
 
             if (storage != null)
             {
                 _storages.Remove(storage);
                 _logger.LogInformation($"Storage {storage.Name} removed");
+                Save();
             }
             else 
             {
-                _logger.LogInformation($"Storage {storageName} didn't exist");
+                _logger.LogInformation($"Storage {deleteStorage.StorageName} didn't exist");
             }
         }
 
@@ -128,6 +134,7 @@ namespace ProductsApi.Services
                 {
                     product.Count = product.Count > count ? product.Count - count : 0;
                     _logger.LogInformation($"Sold {count} products {product}");
+                    Save();
                 }
                 else
                 {
@@ -145,7 +152,7 @@ namespace ProductsApi.Services
             return (decimal)_storages.Sum(x => x.Products.Sum(y => y.Weight));
         }
 
-        public void Save()
+        private void Save()
         {
             _dataBase.Write(_storages);
         }

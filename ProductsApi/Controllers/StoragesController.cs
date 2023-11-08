@@ -1,72 +1,69 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ProductsApi.Models;
+using ProductsApi.Models.Dto;
 using ProductsApi.Services;
+using ProductsApi.Views.Home;
 
 namespace ProductsApi.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]/[action]")]
-    public class StoragesController : ControllerBase
+    public class StoragesController : Controller
     {
         private readonly IStoragesService _service;
+
         public StoragesController(IStoragesService service)
         {
             _service = service;
         }
 
-        [HttpPost]
-        public IEnumerable<StorageModel> GetAll()
+        public IActionResult Index() 
         {
-            return _service.GetAll();
+            return View();
+        }
+        
+        public IActionResult GetAllProducts()
+        {
+            return View("ListProducts", _service.GetAll());
         }
 
         [HttpPost]
-        public IActionResult AddProduct([FromBody] NewProductDto newProduct)
+        public IActionResult AddProduct([FromForm] NewProductDto newProduct)
         {
             if (_service.AddProduct(newProduct))
             {
-                return Ok();
+                return View("ListProducts", _service.GetAll());
             }
 
             return BadRequest();
         }
 
         [HttpPost]
-        public IActionResult AddStorage([FromBody] NewStorageDto newStorage)
+        public IActionResult AddStorage([FromForm] NewStorageDto newStorage)
         {
             if (_service.AddStorage(newStorage))
             {
-                return Ok();
+                return View("ListProducts", _service.GetAll());
             }
 
             return BadRequest();
         }
 
         [HttpPost]
-        public IActionResult DeleteProduct([FromQuery] string productId)
+        public IActionResult DeleteProduct([FromForm] DeleteProductDto deleteProduct)
         {
-            _service.DeleteProduct(productId);
-            return Ok();
+            _service.DeleteProduct(deleteProduct);
+            return View("ListProducts", _service.GetAll());
         }
 
         [HttpPost]
-        public IActionResult DeleteStorage([FromQuery] string storageName)
+        public IActionResult DeleteStorage([FromForm] DeleteStorageDto deleteStorage)
         {
-            _service.DeleteStorage(storageName);
-            return Ok();
+            _service.DeleteStorage(deleteStorage);
+            return View("ListProducts", _service.GetAll());
         }
 
-        [HttpPost]
         public IActionResult TotalWeight()
         {
-            return Ok(_service.TotalWeight());
-        }
-
-        [HttpPost]
-        public IActionResult Save()
-        {
-            _service.Save();
-            return Ok();
+            return View("ListProducts", _service.TotalWeight());
         }
     }
 }

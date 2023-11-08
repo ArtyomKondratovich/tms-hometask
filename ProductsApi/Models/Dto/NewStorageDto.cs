@@ -1,4 +1,4 @@
-﻿namespace ProductsApi.Models
+﻿namespace ProductsApi.Models.Dto
 {
     public class NewStorageDto
     {

@@ -1,4 +1,5 @@
 ﻿using ProductsApi.Models;
+using ProductsApi.Models.Dto;
 using System.Xml.Linq;
 
 namespace ProductsApi.Services
@@ -8,10 +9,9 @@ namespace ProductsApi.Services
         public List<StorageModel> GetAll();
         public bool AddProduct(NewProductDto newProduct);
         public bool AddStorage(NewStorageDto newStorage);
-        public void DeleteProduct(string productId);
-        public void DeleteStorage(string storageName);
+        public void DeleteProduct(DeleteProductDto deleteProduct);
+        public void DeleteStorage(DeleteStorageDto deleteStorage);
         public void Sell(string productId, int count);
         public decimal TotalWeight();
-        public void Save();
     }
 }

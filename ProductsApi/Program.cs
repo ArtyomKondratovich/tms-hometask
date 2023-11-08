@@ -15,23 +15,24 @@ IDataBase db = new DataBase(dbPath, loggerFactory.CreateLogger<DataBase>());
 builder.Services.AddSingleton<IStoragesService>(
     new StoragesService(loggerFactory.CreateLogger<StoragesService>(), db));
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (!app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    
 }
 
-app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Storages}/{action=Index}/{id?}");
 
 app.Run();
