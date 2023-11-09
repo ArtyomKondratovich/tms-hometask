@@ -1,1 +1,21 @@
-[{"Name":"st1","Products":[{"Id":"5154a360-6537-48fb-919c-6d00647160cc","Name":"socks","Description":"size44-45","Weight":0.6,"Count":100},{"Id":"5d781c2f-9660-4569-86c4-010582e1e461","Name":"boots","Description":"black, size 44-45","Weight":0.415,"Count":13}]},{"Name":"Store2","Products":[]}]
+[
+  {
+    "Name": "st1",
+    "Products": [
+      {
+        "Id": "5d781c2f-9660-4569-86c4-010582e1e461",
+        "Name": "boots",
+        "Description": "black, size 44-45",
+        "Weight": 0.415,
+        "Count": 13
+      },
+      {
+        "Id": "3c8d2806-f1ed-468d-bfc8-f10de09a01d3",
+        "Name": "\u0410\u0440\u0442\u0451\u043C",
+        "Description": "hui",
+        "Weight": 89.5,
+        "Count": 1
+      }
+    ]
+  }
+]
