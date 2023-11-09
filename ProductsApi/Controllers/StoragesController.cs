@@ -15,11 +15,6 @@ namespace ProductsApi.Controllers
             _service = service;
         }
 
-        public IActionResult Index() 
-        {
-            return View();
-        }
-        
         public IActionResult GetAllProducts()
         {
             return View("ListProducts", _service.GetAll());
