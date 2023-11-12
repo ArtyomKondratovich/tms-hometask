@@ -1,4 +1,5 @@
 using ProductsApi.DataBase;
+using ProductsApi.Exstensions;
 using ProductsApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,9 +20,13 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
+// exctension for my exceptionMiddleware
+app.UseExceptionMiddleware();
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
-{}
+{
+}
 
 app.UseStaticFiles();
 
