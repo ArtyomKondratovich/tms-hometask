@@ -1,0 +1,17 @@
+﻿@model ProductsApi.Exceptions.CustomException
+
+@{
+    <div>
+        <h1>Error page</h1>
+        <h2>@Model.ErrorName</h2>
+            <p>@Model.ErrorMessage</p>
+
+        (@Html.BeginForm("GetAllProducts", "Storages", FormMethod.Post))
+        {
+            <div>
+                <input type="submit" value="Back to products"/>
+            </div>
+        }
+
+    </div>
+}

@@ -20,12 +20,13 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// exctension for my exceptionMiddleware
-app.UseExceptionMiddleware();
+// extension for my exceptionMiddleware
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
+
 }
 
 app.UseStaticFiles();
@@ -33,7 +34,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
-
+app.UseExceptionMiddleware();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Storages}/{action=GetAllProducts}/{id?}");

@@ -1,6 +1,7 @@
 ﻿using ProductsApi.DataBase;
 using ProductsApi.Models;
 using ProductsApi.Models.Dto;
+using ProductsApi.Exceptions;
 
 namespace ProductsApi.Services
 {
@@ -24,35 +25,25 @@ namespace ProductsApi.Services
             return _storages.ToList();
         }
 
-        public bool AddProduct(NewProductDto newProduct)
+        public void AddProduct(NewProductDto newProduct)
         {
             var storage = _storages.Find(x => x.Name == newProduct.StorageName);
 
             if (storage != null)
             {
-                try 
-                {
-                    var product = new ProductModel(newProduct.Name,
-                        newProduct.Description,
-                        newProduct.Count,
-                        newProduct.Weight);
+                var product = new ProductModel(
+                    newProduct.Name,
+                    newProduct.Description,
+                    newProduct.Count,
+                    newProduct.Weight);
 
-                    storage.Products.Add(product);
-                    _logger.LogInformation($"New product {product} added to storage {newProduct.StorageName}");
-                    Save();
-                    return true;
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(e.Message);
-                }
-            }
-            else
-            {
-                _logger.LogInformation($"Storage {storage} not found");
+                storage.Products.Add(product);
+                _logger.LogInformation($"New product {product} added to storage {newProduct.StorageName}");
+                Save();
+                return;
             }
 
-            return false;
+            throw new StorageNotFoundException(storageName: newProduct.StorageName);
         }
 
         public bool AddStorage(NewStorageDto newStorage)

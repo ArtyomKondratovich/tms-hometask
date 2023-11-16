@@ -23,12 +23,8 @@ namespace ProductsApi.Controllers
         [HttpPost]
         public IActionResult AddProduct([FromForm] NewProductDto newProduct)
         {
-            if (_service.AddProduct(newProduct))
-            {
-                return View("ListProducts", _service.GetAll());
-            }
-
-            return BadRequest();
+            _service.AddProduct(newProduct);
+            return RedirectToAction("GetAllProducts");
         }
 
         [HttpPost]
@@ -36,7 +32,7 @@ namespace ProductsApi.Controllers
         {
             if (_service.AddStorage(newStorage))
             {
-                return View("ListProducts", _service.GetAll());
+                return RedirectToAction("GetAllProducts");
             }
 
             return BadRequest();
@@ -46,19 +42,21 @@ namespace ProductsApi.Controllers
         public IActionResult DeleteProduct([FromForm] DeleteProductDto deleteProduct)
         {
             _service.DeleteProduct(deleteProduct);
-            return View("ListProducts", _service.GetAll());
+            return RedirectToAction("GetAllProducts");
         }
 
         [HttpPost]
         public IActionResult DeleteStorage([FromForm] DeleteStorageDto deleteStorage)
         {
             _service.DeleteStorage(deleteStorage);
-            return View("ListProducts", _service.GetAll());
+            return RedirectToAction("GetAllProducts");
         }
 
         public IActionResult TotalWeight()
         {
-            return View("ListProducts", _service.TotalWeight());
+            View("TotalWeight", _service.TotalWeight());
+
+            return RedirectToAction("GetAllProducts");
         }
     }
 }
