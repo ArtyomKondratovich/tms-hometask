@@ -1,27 +1,39 @@
+using Microsoft.EntityFrameworkCore;
 using ProductsApi.DataBase;
 using ProductsApi.Exstensions;
 using ProductsApi.Services;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var loggerFactory = LoggerFactory.Create(
-    loggingBuilder => loggingBuilder
-    .SetMinimumLevel(LogLevel.Trace)
-    .AddConsole());
+builder.Services.AddLogging(builder =>
+{
+    builder.AddConsole(); // Add console logging provider
+    builder.AddDebug(); // Add debug logging provider
+});
 
-var dbPath = Path.Combine(Directory.GetCurrentDirectory(), builder.Configuration["dbPath"]);
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-IDataBase db = new DataBase(dbPath, loggerFactory.CreateLogger<DataBase>());
+var optionsBuilder = new DbContextOptionsBuilder<MyDbContext>();
 
-builder.Services.AddSingleton<IStoragesService>(
-    new StoragesService(loggerFactory.CreateLogger<StoragesService>(), db));
+var options = optionsBuilder
+        .UseSqlServer(connectionString)
+        .Options;
+
+var dbContext = new MyDbContext(options);
 
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddSingleton<IStoragesService>(provider =>
+{
+    var logger = provider.GetRequiredService<ILogger<StoragesService>>();
+
+    return new StoragesService(dbContext, logger);
+});
+
+
+
 var app = builder.Build();
-
-// extension for my exceptionMiddleware
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -34,9 +46,11 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
 app.UseExceptionMiddleware();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Storages}/{action=GetAllProducts}/{id?}");
+    pattern: "{controller=Storages}/{action=GetAllStorages}/{id?}");
 
 app.Run();

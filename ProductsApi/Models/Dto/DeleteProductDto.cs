@@ -2,6 +2,6 @@
 {
     public class DeleteProductDto
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
     }
 }

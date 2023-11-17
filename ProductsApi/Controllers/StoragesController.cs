@@ -17,45 +17,44 @@ namespace ProductsApi.Controllers
 
         public IActionResult GetAllProducts()
         {
-            return View("ListProducts", _service.GetAll());
+            return View("ListProducts", _service.GetAllProducts());
+        }
+
+        public IActionResult GetAllStorages()
+        {
+            return View("ListStorages", _service.GetAllStorages());
         }
 
         [HttpPost]
-        public IActionResult AddProduct([FromForm] NewProductDto newProduct)
+        public async Task<IActionResult> AddProduct([FromForm] NewProductDto newProduct)
         {
-            _service.AddProduct(newProduct);
-            return RedirectToAction("GetAllProducts");
+            await _service.AddProductAsync(newProduct);
+            return RedirectToAction("GetAllStorages");
         }
 
         [HttpPost]
-        public IActionResult AddStorage([FromForm] NewStorageDto newStorage)
+        public async Task<IActionResult> AddStorage([FromForm] NewStorageDto newStorage)
         {
-            if (_service.AddStorage(newStorage))
-            {
-                return RedirectToAction("GetAllProducts");
-            }
-
-            return BadRequest();
+            await _service.AddStorageAsync(newStorage);
+            return RedirectToAction("GetAllStorages");
         }
 
         [HttpPost]
-        public IActionResult DeleteProduct([FromForm] DeleteProductDto deleteProduct)
+        public async Task<IActionResult> DeleteProduct([FromForm] DeleteProductDto deleteProduct)
         {
-            _service.DeleteProduct(deleteProduct);
-            return RedirectToAction("GetAllProducts");
+            await _service.DeleteProductAsync(deleteProduct);
+            return RedirectToAction("GetAllStorages");
         }
 
         [HttpPost]
-        public IActionResult DeleteStorage([FromForm] DeleteStorageDto deleteStorage)
+        public async Task<IActionResult> DeleteStorage([FromForm] DeleteStorageDto deleteStorage)
         {
-            _service.DeleteStorage(deleteStorage);
-            return RedirectToAction("GetAllProducts");
+            await _service.DeleteStorageAsync(deleteStorage);
+            return RedirectToAction("GetAllStorages");
         }
 
         public IActionResult TotalWeight()
         {
-            View("TotalWeight", _service.TotalWeight());
-
             return RedirectToAction("GetAllProducts");
         }
     }

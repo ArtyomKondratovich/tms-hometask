@@ -2,6 +2,6 @@
 {
     public class DeleteStorageDto
     {
-        public string StorageName { get; set; }
+        public int Id { get; set; }
     }
 }

@@ -1,78 +1,15 @@
 ﻿@using ProductsApi.Models;
-@model List<StorageModel>
-
-
+@model List<ProductModel>
 @{
-    foreach (var storage in Model)
-    {
-        <div>
-            <h1>@storage.Name</h1>
-            @using (Html.BeginForm("DeleteStorage", "Storages", FormMethod.Post))
-            {
-                <input type="hidden" name="storageName" value="@storage.Name" />
-                <div>
-                    <input type="submit" value="delete storage" />
-                </div>
-            }
-
-            @{
-                foreach (var product in storage.Products)
-                {
-                    
-                    <h3>@product.ToString()</h3>
-
-                    @using (Html.BeginForm("DeleteProduct", "Storages", FormMethod.Post))
-                    {
-                        <input type="hidden" name="id" value="@product.Id" />
-                        <div>
-                            <input type="submit" value="delete product" />
-                        </div>
-                    }
-                }
-            }
-
-            @using (Html.BeginForm("AddProduct", "Storages", FormMethod.Post))
-            {
-                <input type="hidden" name="storageName" value="@storage.Name" />
-
-                <div>
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" name="name" />
-                </div>
-
-                <div>
-                    <label for="description">Description:</label>
-                    <input type="text" id="description" name="description" />
-                </div>
-
-                <div>
-                    <label for="weight">Weight:</label>
-                    <input type="text" id="weight" name="weight" />
-                </div>
-
-                <div>
-                    <label for="count">Count:</label>
-                    <input type="text" id="count" name="count" />
-                </div>
-
-                <div>
-                    <input type="submit" value="Add" />
-                </div>
-            }
-            
-        </div>
-    }
-
-    @using (Html.BeginForm("AddStorage", "Storages", FormMethod.Post))
-    {
-        <div>
-            <label for="name">Name:</label>
-            <input type="text" id="name" name="name" />
-        </div>
-
-        <div>
-            <input type="submit" value="Add" />
-        </div>
-    }
+    <h1>Products</h1>
+    <div>
+        @foreach (var product in Model)
+        {
+            <div>
+                <h1>@product.Name</h1>
+                <h2>@product.Description</h2>
+                <p>Count: @product.Count  Weight: @product.Weight Storage: @product.Storage.Name</p>
+            </div>
+        }
+    </div>
 }
-

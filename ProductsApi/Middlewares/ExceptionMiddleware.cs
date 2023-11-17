@@ -1,4 +1,5 @@
-﻿using ProductsApi.Exceptions;
+﻿using Newtonsoft.Json;
+using ProductsApi.Exceptions;
 using System.Net;
 using System.Text.Json;
 
@@ -19,15 +20,13 @@ namespace ProductsApi.Middlewares
             {
                 await _next(context); 
             }
-            catch (Exception exception) 
+            catch (CustomException exception) 
             {
                 context.Response.ContentType = "application/json";
 
-                var response = new CustomException(nameof(exception), exception.Message, (int)HttpStatusCode.InternalServerError);
+                context.Response.StatusCode = exception.StatusCode;
 
-                context.Response.StatusCode = response.StatusCode;
-
-                var json = JsonSerializer.Serialize(response);
+                var json = JsonConvert.SerializeObject(exception);
 
                 await context.Response.WriteAsync(json);
             }

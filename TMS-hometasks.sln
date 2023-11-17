@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductsApi", "ProductsApi\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "domains", "domains\domains.csproj", "{944842AC-68AD-4720-96FE-6A6C4F17C1AD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiThreading", "MultiThreading\MultiThreading.csproj", "{0736F69B-CB41-4365-AB1E-31CA6E13E86D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{944842AC-68AD-4720-96FE-6A6C4F17C1AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{944842AC-68AD-4720-96FE-6A6C4F17C1AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{944842AC-68AD-4720-96FE-6A6C4F17C1AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0736F69B-CB41-4365-AB1E-31CA6E13E86D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0736F69B-CB41-4365-AB1E-31CA6E13E86D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0736F69B-CB41-4365-AB1E-31CA6E13E86D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0736F69B-CB41-4365-AB1E-31CA6E13E86D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
