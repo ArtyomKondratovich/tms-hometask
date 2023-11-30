@@ -23,7 +23,7 @@ Console.WriteLine($"Time = {timer.ElapsedMilliseconds} ms");
 
 var predicate = new Predicate<int>(IsPerfectSquare);
 
-await numbers.FindAsync(4, predicate);
+//await numbers.FindAsync(4, predicate);
 
 static bool IsPrime(int number)
 {
