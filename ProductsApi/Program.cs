@@ -14,24 +14,12 @@ builder.Services.AddLogging(builder =>
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-var optionsBuilder = new DbContextOptionsBuilder<MyDbContext>();
+builder.Services.AddDbContext<MyDbContext>(option =>
+    option.UseSqlServer(connectionString));
 
-var options = optionsBuilder
-        .UseSqlServer(connectionString)
-        .Options;
-
-var dbContext = new MyDbContext(options);
+builder.Services.AddScoped<IStoragesService, StoragesService>();
 
 builder.Services.AddControllersWithViews();
-
-builder.Services.AddSingleton<IStoragesService>(provider =>
-{
-    var logger = provider.GetRequiredService<ILogger<StoragesService>>();
-
-    return new StoragesService(dbContext, logger);
-});
-
-
 
 var app = builder.Build();
 
